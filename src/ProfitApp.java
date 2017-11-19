@@ -21,8 +21,18 @@ import java.awt.Image;
 import java.awt.Button;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+
 import javax.swing.UIManager;
+import javax.swing.JMenuBar;
+import javax.swing.JMenu;
+import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 
 public class ProfitApp {
 
@@ -87,6 +97,10 @@ public class ProfitApp {
 	private JTextField costRemain;
 	private JLabel imageVal;
 	private JTextField textField_5;
+	
+	private boolean modification = false;
+	private String filePath = "";
+	private String imagePath = "";
 
 	/**
 	 * Launch the application.
@@ -118,7 +132,7 @@ public class ProfitApp {
 		frmProfitCalculator = new JFrame();
 		frmProfitCalculator.setIconImage(Toolkit.getDefaultToolkit().getImage(ProfitApp.class.getResource("/javax/swing/plaf/metal/icons/ocean/file.gif")));
 		frmProfitCalculator.setTitle("E.K.GRAND COMPANY LIMITED                                                                                                                                                                                                                PRODUCT LIST DETAIL");
-		frmProfitCalculator.setBounds(0, 0, 1920, 1000);
+		frmProfitCalculator.setBounds(0, 0, 1920, 1035);
 		frmProfitCalculator.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmProfitCalculator.getContentPane().setLayout(null);
 		
@@ -128,12 +142,12 @@ public class ProfitApp {
 		
 		Canvas canvas = new Canvas();
 		canvas.setBackground(Color.BLACK);
-		canvas.setBounds(949, 0, 10, 1041);
+		canvas.setBounds(949, 26, 10, 1015);
 		frmProfitCalculator.getContentPane().add(canvas);
 		
 		JPanel panel = new JPanel();
 		panel.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
-		panel.setBounds(12, 727, 931, 213);
+		panel.setBounds(12, 762, 931, 213);
 		frmProfitCalculator.getContentPane().add(panel);
 		panel.setLayout(null);
 		
@@ -444,7 +458,7 @@ public class ProfitApp {
 		
 		JPanel panel_1 = new JPanel();
 		panel_1.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
-		panel_1.setBounds(12, 446, 920, 268);
+		panel_1.setBounds(12, 481, 920, 268);
 		frmProfitCalculator.getContentPane().add(panel_1);
 		panel_1.setLayout(null);
 		
@@ -668,7 +682,7 @@ public class ProfitApp {
 		
 		JPanel panel_2 = new JPanel();
 		panel_2.setBorder(new LineBorder(new Color(0, 0, 0)));
-		panel_2.setBounds(974, 26, 450, 328);
+		panel_2.setBounds(965, 49, 450, 328);
 		frmProfitCalculator.getContentPane().add(panel_2);
 		panel_2.setLayout(null);
 		
@@ -847,7 +861,7 @@ public class ProfitApp {
 		
 		JPanel panel_3 = new JPanel();
 		panel_3.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
-		panel_3.setBounds(965, 375, 450, 276);
+		panel_3.setBounds(965, 413, 450, 276);
 		frmProfitCalculator.getContentPane().add(panel_3);
 		panel_3.setLayout(null);
 		
@@ -953,7 +967,7 @@ public class ProfitApp {
 		
 		JPanel panel_4 = new JPanel();
 		panel_4.setBorder(new MatteBorder(1, 1, 1, 1, (Color) new Color(0, 0, 0)));
-		panel_4.setBounds(965, 664, 450, 218);
+		panel_4.setBounds(965, 702, 450, 218);
 		frmProfitCalculator.getContentPane().add(panel_4);
 		panel_4.setLayout(null);
 		
@@ -1054,7 +1068,7 @@ public class ProfitApp {
 		
 		JPanel panel_5 = new JPanel();
 		panel_5.setBorder(new LineBorder(new Color(0, 0, 0)));
-		panel_5.setBounds(12, 13, 931, 149);
+		panel_5.setBounds(12, 48, 931, 149);
 		frmProfitCalculator.getContentPane().add(panel_5);
 		panel_5.setLayout(null);
 		
@@ -1165,7 +1179,7 @@ public class ProfitApp {
 		panel_5.add(textField_5);
 		
 		JPanel panel_6 = new JPanel();
-		panel_6.setBounds(12, 175, 409, 66);
+		panel_6.setBounds(12, 210, 409, 66);
 		frmProfitCalculator.getContentPane().add(panel_6);
 		panel_6.setLayout(null);
 		
@@ -1192,13 +1206,13 @@ public class ProfitApp {
 		panel_6.add(lblBoxesPerCarton);
 		
 		JLabel lblPressAfterTyped = new JLabel("PRESS <ENTER> AFTER TYPED EACH TIMES TO CALCULATE");
-		lblPressAfterTyped.setBounds(1183, 879, 772, 74);
+		lblPressAfterTyped.setBounds(1184, 914, 772, 74);
 		frmProfitCalculator.getContentPane().add(lblPressAfterTyped);
 		lblPressAfterTyped.setFont(new Font("Tahoma", Font.BOLD, 23));
 		
 		JPanel panel_7 = new JPanel();
 		panel_7.setBorder(new LineBorder(new Color(0, 0, 0)));
-		panel_7.setBounds(1447, 26, 431, 328);
+		panel_7.setBounds(1429, 72, 431, 328);
 		frmProfitCalculator.getContentPane().add(panel_7);
 		panel_7.setLayout(null);
 		
@@ -1373,7 +1387,7 @@ public class ProfitApp {
 		
 		JPanel panel_8 = new JPanel();
 		panel_8.setBorder(new LineBorder(new Color(0, 0, 0)));
-		panel_8.setBounds(1427, 375, 463, 276);
+		panel_8.setBounds(1427, 413, 463, 276);
 		frmProfitCalculator.getContentPane().add(panel_8);
 		panel_8.setLayout(null);
 		
@@ -1479,7 +1493,7 @@ public class ProfitApp {
 		
 		JPanel panel_9 = new JPanel();
 		panel_9.setBorder(new LineBorder(new Color(0, 0, 0)));
-		panel_9.setBounds(1427, 664, 463, 218);
+		panel_9.setBounds(1427, 702, 463, 218);
 		frmProfitCalculator.getContentPane().add(panel_9);
 		panel_9.setLayout(null);
 		
@@ -1580,7 +1594,7 @@ public class ProfitApp {
 		
 		JPanel panel_10 = new JPanel();
 		panel_10.setBorder(new LineBorder(new Color(0, 0, 0)));
-		panel_10.setBounds(433, 175, 464, 258);
+		panel_10.setBounds(427, 210, 464, 258);
 		frmProfitCalculator.getContentPane().add(panel_10);
 		panel_10.setLayout(null);
 		
@@ -1591,30 +1605,83 @@ public class ProfitApp {
 		imageVal.setFont(new Font("Tahoma", Font.PLAIN, 26));
 		
 		JLabel lblProductImage = new JLabel("Product Image :");
-		lblProductImage.setBounds(230, 254, 168, 29);
+		lblProductImage.setBounds(230, 289, 168, 29);
 		frmProfitCalculator.getContentPane().add(lblProductImage);
 		lblProductImage.setFont(new Font("Tahoma", Font.PLAIN, 21));
 		
 		Button browse = new Button("Browse");
-		browse.setBounds(230, 305, 136, 42);
+		browse.setBounds(230, 336, 136, 42);
 		frmProfitCalculator.getContentPane().add(browse);
 		browse.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
-				 JFileChooser Filechoose=new JFileChooser();
-				 Filechoose.setFileFilter(new FileNameExtensionFilter("Images (*.jpg, *.png, *.gif, *.bmp)", "jpg", "png", "gif", "bmp"));
-	                int retval=Filechoose.showOpenDialog(null);
-	                if (retval == JFileChooser.APPROVE_OPTION) {
-	                    //... The user selected a file, get it, use it.
-	                    File file = Filechoose.getSelectedFile();
-	                    //System.out.println(file.getPath());
-	                    Image img = new ImageIcon(file.getPath()).getImage().getScaledInstance(imageVal.getWidth(), imageVal.getHeight(), Image.SCALE_DEFAULT);
-	                    imageVal.setIcon(new ImageIcon(img));
-	                }
+				 loadImage();
 			}
 		});
 		browse.setName("Browse");
 		browse.setFont(new Font("Dialog", Font.PLAIN, 20));
+		
+		JMenuBar menuBar = new JMenuBar();
+		menuBar.setBounds(0, 0, 1902, 29);
+		frmProfitCalculator.getContentPane().add(menuBar);
+		
+		JMenu mnFile = new JMenu("File");
+		menuBar.add(mnFile);
+		
+		JMenuItem mntmNew = new JMenuItem("New");
+		mntmNew.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				newFile();
+			}
+		});
+		mnFile.add(mntmNew);
+		
+		JMenuItem mntmOpen = new JMenuItem("Open");
+		mntmOpen.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				try {
+					openFile();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		});
+		mnFile.add(mntmOpen);
+		
+		JMenuItem mntmSave = new JMenuItem("Save");
+		mntmSave.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				try {
+					saveFile();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		});
+		mnFile.add(mntmSave);
+		
+		JMenuItem mntmSaveAs = new JMenuItem("Save As");
+		mntmSaveAs.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					saveFileAs();
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+		});
+		mnFile.add(mntmSaveAs);
+		
+		JMenuItem mntmExit = new JMenuItem("Exit");
+		mntmExit.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				exit();
+			}
+		});
+		mnFile.add(mntmExit);
 		
 		
 	}
@@ -1784,5 +1851,369 @@ public class ProfitApp {
 		Sale4.setText(String.format("%.2f", x4Set*outSaleTotal));
 		Sale5.setText(String.format("%.2f", x5Set*outSaleTotal));
 		
+		modification = true;
+	}
+	
+	void newFile() {
+		//Ask user if really want to new file, once modification was made
+		if(modification) {
+			int confirmed = JOptionPane.showConfirmDialog(null, "New File?","New",JOptionPane.YES_NO_OPTION);
+	        if(confirmed != JOptionPane.YES_OPTION)
+	        {
+	        	return;
+	        }
+		}
+		
+		//Reset everything, text field and image to default value
+		textField_7.setText("<product name>");
+		textField_5.setText("<product code>");
+		textField_10.setText("");
+		textField_6.setText("");
+		textField_11.setText("");
+		txtDdmmyyyy.setText("DD/MM/YYYY");
+		textField_12.setText("DD/MM/YYYY");
+		
+		quantityVal.setText("0");
+		
+		initVal.setText("0");
+		sellVal.setText("0");
+		opVal.setText("0");
+		guideVal.setText("0");
+		
+		Val1.setText("0");
+		textField.setText("<company name>");
+		Val2.setText("0");
+		textField_1.setText("<company name>");
+		Val3.setText("0");
+		textField_2.setText("<company name>");
+		Val4.setText("0");
+		textField_3.setText("<company name>");
+		Val5.setText("0");
+		textField_4.setText("<company name>");
+		
+		multi.setText("0");
+		
+		outlet1.setText("0");
+		outlet2.setText("0");
+		outlet3.setText("0");
+		outlet4.setText("0");
+		outlet5.setText("0");
+		
+		outlet1sale.setText("0");
+		outlet2sale.setText("0");
+		outlet3sale.setText("0");
+		outlet4sale.setText("0");
+		outlet5sale.setText("0");
+		
+		imageVal.setIcon(null);
+		
+		//above is the modifiable values
+		//below is the non-modifiable values
+		qty.setText("0");
+		outletTotal.setText("0");
+		
+		new_profit.setText("0.0");
+		op_profit.setText("0.0");
+		opOut.setText("0.0");
+		guideOut.setText("0.0");
+		M1.setText("0.0");
+		M2.setText("0.0");
+		M3.setText("0.0");
+		M4.setText("0.0");
+		M5.setText("0.0");
+		init48.setText("0.0");
+		sell48.setText("0.0");
+		op48.setText("0.0");
+		guide48.setText("0.0");
+		profit48.setText("0.0");
+		x148.setText("0.0");
+		x248.setText("0.0");
+		x348.setText("0.0");
+		x448.setText("0.0");
+		x548.setText("0.0");
+		
+		initSale.setText("0.0");
+		sellSale.setText("0.0");
+		opSale.setText("0.0");
+		guideSale.setText("0.0");
+		profitSale.setText("0.0");
+		Sale1.setText("0.0");
+		Sale2.setText("0.0");
+		Sale3.setText("0.0");
+		Sale4.setText("0.0");
+		Sale5.setText("0.0");
+		costRemain.setText("0.0");
+		
+		outletTotalSale.setText("0");
+		remainVal.setText("0");
+		
+		Multi1.setText("0.0");
+		Multi2.setText("0.0");
+		Multi3.setText("0.0");
+		Multi4.setText("0.0");
+		Multi5.setText("0.0");
+		
+		initMulti.setText("0.0");
+		sellMulti.setText("0.0");
+		opMulti.setText("0.0");
+		guideMulti.setText("0.0");
+		profitMulti.setText("0.0");
+		
+		imagePath = "";
+		filePath = "";
+		modification = false;
+	}
+	
+	void openFile() throws IOException {
+		//load a file from the text, also calculate
+		JFileChooser Filechoose=new JFileChooser();
+		 Filechoose.setFileFilter(new FileNameExtensionFilter("EK Grand save file (*.ek)", "ek"));
+          int retval=Filechoose.showOpenDialog(null);
+          if (retval == JFileChooser.APPROVE_OPTION) {
+        	//set and record path of the file
+        	filePath = Filechoose.getSelectedFile().getPath();
+        	
+        	String[] load = load(filePath);
+        	
+      		//for(int i = 0; i < load.length; i++) {
+      	    //    load[i] = load[i].substring(load[i].indexOf("=")+1);
+      	    //}
+      		textField_7.setText(load[0]);
+      		textField_5.setText(load[1]);
+      		textField_10.setText(load[2]);
+      		textField_6.setText(load[3]);
+      		textField_11.setText(load[4]);
+      		txtDdmmyyyy.setText(load[5]);
+      		textField_12.setText(load[6]);
+      		
+      		quantityVal.setText(load[7]);
+      		
+      		imagePath = load[8];
+              Image img = new ImageIcon(imagePath).getImage().getScaledInstance(imageVal.getWidth(), imageVal.getHeight(), Image.SCALE_DEFAULT);
+              imageVal.setIcon(new ImageIcon(img));
+      		
+      		initVal.setText(load[9]);
+      		sellVal.setText(load[10]);
+      		opVal.setText(load[11]);
+      		guideVal.setText(load[12]);
+      		
+      		textField.setText(load[13]);
+      		Val1.setText(load[14]);
+      		textField_1.setText(load[15]);
+      		Val2.setText(load[16]);
+      		textField_2.setText(load[17]);
+      		Val3.setText(load[18]);
+      		textField_3.setText(load[19]);
+      		Val4.setText(load[20]);
+      		textField_4.setText(load[21]);
+      		Val5.setText(load[22]);
+      		
+      		
+      		multi.setText(load[23]);
+      		
+      		outlet1.setText(load[24]);
+      		outlet2.setText(load[25]);
+      		outlet3.setText(load[26]);
+      		outlet4.setText(load[27]);
+      		outlet5.setText(load[28]);
+      		
+      		outlet1sale.setText(load[29]);
+      		outlet2sale.setText(load[30]);
+      		outlet3sale.setText(load[31]);
+      		outlet4sale.setText(load[32]);
+      		outlet5sale.setText(load[33]);
+      		
+      		
+      		calculate();
+      		
+      		
+      		
+          }
+		
+		//set modified as not yet
+          modification = false;
+          
+         // System.out.println(filePath);
+	}
+	
+	static String[] load(String filepath) throws IOException {
+		BufferedReader br = new BufferedReader(new FileReader(filepath));
+        
+        StringBuilder sb = new StringBuilder();
+        String line = br.readLine();
+
+        while (line != null) {
+            sb.append(line);
+            sb.append("-split here-");
+            line = br.readLine();
+        }
+        String[] everything = sb.toString().split("-split here-");
+        
+        
+        br.close();
+        
+        return everything;
+  
+	}
+	
+	void saveFile() throws IOException {
+		//if file not yet saved, run menu
+		if(filePath.equals("")) {
+			runSaveMenu();
+		} else {
+			//save a file in a text immediately
+			String[] words = new String[34];
+			words[0] = textField_7.getText();
+			words[1] = textField_5.getText();
+			words[2] = textField_10.getText();
+			words[3] = textField_6.getText();
+			words[4] = textField_11.getText();
+			words[5] = txtDdmmyyyy.getText();
+			words[6] = textField_12.getText();
+      	
+			words[7] = quantityVal.getText();
+      		
+			words[8] = imagePath;
+      		
+			words[9] = initVal.getText();
+			words[10] = sellVal.getText();
+			words[11] = opVal.getText();
+			words[12] = guideVal.getText();
+      		
+			words[13] = textField.getText();
+			words[14] = Val1.getText();
+			words[15] = textField_1.getText();
+			words[16] = Val2.getText();
+			words[17] = textField_2.getText();
+			words[18] = Val3.getText();
+			words[19] = textField_3.getText();
+			words[20] = Val4.getText();
+			words[21] = textField_4.getText();
+			words[22] = Val5.getText();
+      		
+			words[23] = multi.getText();
+      		
+			words[24] = outlet1.getText();
+			words[25] = outlet2.getText();
+			words[26] = outlet3.getText();
+			words[27] = outlet4.getText();
+			words[28] = outlet5.getText();
+      		
+			words[29] = outlet1sale.getText();
+			words[30] = outlet2sale.getText();
+			words[31] = outlet3sale.getText();
+			words[32] = outlet4sale.getText();
+			words[33] = outlet5sale.getText();
+			
+			save(words,filePath);
+		}
+		
+		modification = false;
+		//set modified as not yet
+	}
+	
+	void saveFileAs() throws IOException {
+		//Run menu
+		runSaveMenu();
+		
+		modification = false;
+	}
+	
+	void runSaveMenu() throws IOException {
+		JFileChooser Filechoose=new JFileChooser();
+		 Filechoose.setFileFilter(new FileNameExtensionFilter("EK Grand save file (*.ek)", "ek"));
+          int retval=Filechoose.showSaveDialog(null);
+          if (retval == JFileChooser.APPROVE_OPTION) {
+              //... The user selected a file, get it, use it.
+              File file = Filechoose.getSelectedFile();
+              System.out.println(file.getPath());
+              filePath = file.getPath();
+              
+              String[] words = new String[34];
+  			words[0] = textField_7.getText();
+  			words[1] = textField_5.getText();
+  			words[2] = textField_10.getText();
+  			words[3] = textField_6.getText();
+  			words[4] = textField_11.getText();
+  			words[5] = txtDdmmyyyy.getText();
+  			words[6] = textField_12.getText();
+        	
+  			words[7] = quantityVal.getText();
+        		
+  			words[8] = imagePath;
+        		
+  			words[9] = initVal.getText();
+  			words[10] = sellVal.getText();
+  			words[11] = opVal.getText();
+  			words[12] = guideVal.getText();
+        		
+  			words[13] = textField.getText();
+  			words[14] = Val1.getText();
+  			words[15] = textField_1.getText();
+  			words[16] = Val2.getText();
+  			words[17] = textField_2.getText();
+  			words[18] = Val3.getText();
+  			words[19] = textField_3.getText();
+  			words[20] = Val4.getText();
+  			words[21] = textField_4.getText();
+  			words[22] = Val5.getText();
+        		
+  			words[23] = multi.getText();
+        		
+  			words[24] = outlet1.getText();
+  			words[25] = outlet2.getText();
+  			words[26] = outlet3.getText();
+  			words[27] = outlet4.getText();
+  			words[28] = outlet5.getText();
+        		
+  			words[29] = outlet1sale.getText();
+  			words[30] = outlet2sale.getText();
+  			words[31] = outlet3sale.getText();
+  			words[32] = outlet4sale.getText();
+  			words[33] = outlet5sale.getText();
+  			
+  			save(words,filePath);
+          }
+	}
+	
+	static void save(String[] words, String filepath) throws IOException {
+		BufferedWriter writer = null;
+		
+            File file = new File(filepath);
+            writer = new BufferedWriter(new FileWriter(file));
+            for (String word: words) {
+                writer.write(word);
+                writer.newLine();
+            }
+      
+            writer.close();
+	}
+	
+	void exit() {
+		//ask user if save modified (also for X button as well)
+		if(modification) {
+			int confirmed = JOptionPane.showConfirmDialog(null, "Exit Program?","Exit",JOptionPane.YES_NO_OPTION);
+	        if(confirmed != JOptionPane.YES_OPTION)
+	        {
+	        	return;
+	        }
+		}
+		
+		//exit
+		System.exit(0);
+	}
+	
+	void loadImage() {
+		JFileChooser Filechoose=new JFileChooser();
+		 Filechoose.setFileFilter(new FileNameExtensionFilter("Images (*.jpg, *.png, *.gif, *.bmp)", "jpg", "png", "gif", "bmp"));
+           int retval=Filechoose.showOpenDialog(null);
+           if (retval == JFileChooser.APPROVE_OPTION) {
+               //... The user selected a file, get it, use it.
+               File file = Filechoose.getSelectedFile();
+               //System.out.println(file.getPath());
+               imagePath = file.getPath();
+               Image img = new ImageIcon(imagePath).getImage().getScaledInstance(imageVal.getWidth(), imageVal.getHeight(), Image.SCALE_DEFAULT);
+               imageVal.setIcon(new ImageIcon(img));
+           }
 	}
 }
