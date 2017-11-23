@@ -101,6 +101,7 @@ public class ProfitApp {
 	private boolean modification = false;
 	private String filePath = "";
 	private String imagePath = "";
+	private File file;
 
 	/**
 	 * Launch the application.
@@ -1967,6 +1968,8 @@ public class ProfitApp {
 	void openFile() throws IOException {
 		//load a file from the text, also calculate
 		JFileChooser Filechoose=new JFileChooser();
+		file = new File(filePath);
+		Filechoose.setSelectedFile(file);
 		 Filechoose.setFileFilter(new FileNameExtensionFilter("EK Grand save file (*.ek)", "ek"));
           int retval=Filechoose.showOpenDialog(null);
           if (retval == JFileChooser.APPROVE_OPTION) {
@@ -2106,6 +2109,7 @@ public class ProfitApp {
 			words[33] = outlet5sale.getText();
 			
 			save(words,filePath);
+			file = new File(filePath);
 		}
 		
 		modification = false;
@@ -2121,6 +2125,8 @@ public class ProfitApp {
 	
 	void runSaveMenu() throws IOException {
 		JFileChooser Filechoose=new JFileChooser();
+		file = new File(filePath);
+		Filechoose.setSelectedFile(file);
 		 Filechoose.setFileFilter(new FileNameExtensionFilter("EK Grand save file (*.ek)", "ek"));
           int retval=Filechoose.showSaveDialog(null);
           if (retval == JFileChooser.APPROVE_OPTION) {
@@ -2173,6 +2179,7 @@ public class ProfitApp {
   			words[33] = outlet5sale.getText();
   			
   			save(words,filePath);
+  			file = new File(filePath);
           }
 	}
 	
